@@ -1,4 +1,4 @@
-A sample MDN app that uses getUserMedia and MediaRecorder API for recording audio snippets, and The Web Audio API for visualizations.
+This a fork of Chris Mills' Web-Dictaphone sample app. Reworked as a Firefox OS app.
 
 Documentation:
 
@@ -6,3 +6,5 @@ Documentation:
 * [MediaRecorder API landing page](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder_API): includes API reference and more
 
 Thanks to [Sole](http://soledadpenades.com/) for the oscilloscope code.
+
+"Crystal Clear app krec" by Everaldo Coelho and YellowIcon - All Crystal icons were posted by the author as LGPL on kde-look. Licensed under GNU Lesser General Public License via Wikimedia Commons - https://commons.wikimedia.org/wiki/File:Crystal_Clear_app_krec.png#mediaviewer/File:Crystal_Clear_app_krec.png

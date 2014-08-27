@@ -34,9 +34,12 @@ canvas {
 	border-bottom: 1px solid black;
 }
 
+.hidden {
+  display: none;
+}
 #record {
   position: fixed;
-  top: 155px;
+  top: 173px;
   left: calc(100%/2.4);
   height: 63px;
   width: 63px;
@@ -45,7 +48,7 @@ canvas {
   background-position: 50% 50%;
 }
 
-.wrapper {
+#wrapper {
 	height: 100%;
 	max-width: 800px;
 	margin: 0 auto;
@@ -57,13 +60,13 @@ header {
   height: 50px;
 }
 
-.main-controls {
+#main-controls {
   height: 180px;
 }
 
-.sound-clips {
+#sound-clips {
   box-shadow: inset 0 3px 4px rgba(0,0,0,0.7);
-  background-color: rgba(0,0,0,0.1);
+  background-color: white;
   height: calc(100% - 240px - 0.7rem);
   overflow: scroll;
 }
@@ -71,47 +74,44 @@ header {
 /* audio styling */
 
 #clip {
+  font-size: 1.3rem;
 	list-style: none;
-  line-height: 10px;
-  margin-left: -15px;
-}
-.label {
-  list-style: none;
-  margin-left: -20px;
-  color: white;
-}
-.deleteButton {
-  position: relative;
+  line-height: 3rem;
   margin-left: 15px;
 }
-.audioClip {
-  position: relative;
-  top: 10px;
+dd {
+  margin-left: 0;
 }
+.deleteButton {
+  position: fixed;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
 audio {
-	width: 90%;
+	width: 70%;
 /*	display: block;*/
-	margin: 10px auto 10px;
+	margin-top: 10px;
 }
 
 
-@media (min-width: 481px) {
+@media (min-width: 480px) {
   /*CSS for medium width screens*/
 
   /* || Basic layout changes for the main control buttons */
 
-  .main-controls {
+  #main-controls {
   padding-bottom: 0.7rem;
     height: 125px;
   }
 
-  .sound-clips {
+  #sound-clips {
     height: calc(100% - 195px - 0.7rem);
   }
 }
 
 @media (min-width: 481px) and (max-height: 460px) {
-  .sound-clips {
+  #sound-clips {
     height: auto;
     background-color: #999;
 	background-image: linear-gradient(to top right, rgba(0,0,0,0), rgba(0,0,0,0.5));

@@ -1,17 +1,17 @@
 // fork getUserMedia for multiple browser versions, for the future
 // when more browsers support MediaRecorder
 
-navigator.getUserMedia = ( navigator.getUserMedia ||
+navigator.getUserMedia = (navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
 // set up basic variables for app
 
-var record = document.querySelector('#record');
-var stop = document.querySelector('#stop');
-var soundClips = document.querySelector('.sound-clips');
-var canvas = document.querySelector('.visualizer');
+var record = document.getElementById('record');
+var stop = document.getElementById('stop');
+var soundClips = document.getElementById('sound-clips');
+var canvas = document.getElementById('visualizer');
 
 
 // visualiser setup - create web audio api context and canvas
@@ -53,37 +53,42 @@ if (navigator.getUserMedia) {
       }
       mediaRecorder.ondataavailable = function(e) {
         console.log("data available");
+        var d = new Date();
+        var clipDate = (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
 
-        var clipName = prompt('Enter a name for your sound clip');
-
+        var clipName = document.createTextNode(prompt('Enter a name for your sound clip') + " " + clipDate);
         var clipList = document.getElementById("clip");
-        var clipContainer = document.createElement("li");
-        var labelContainer = document.createElement("ul")
-        var clipLabelList = document.createElement("li");
-        var clipLabelItem = document.createElement("span");
-        labelContainer.classList.add("label");
+
+        var clipListItem = document.createElement("dt");
+        clipListItem.appendChild(clipName);
+
+        clipListItem.addEventListener("click", toggleAudio);
+
+        var clipListSubItem = document.createElement("dd");
+        clipListSubItem.classList.add("hidden");
         var audio = document.createElement('audio');
-        audio.classList.add("audioClip");
         var deleteButton = document.createElement('button');
         deleteButton.classList.add("deleteButton");
 
         audio.setAttribute('controls', '');
         deleteButton.innerHTML = "Delete";
-        clipLabelItem.innerHTML = clipName;
 
-        clipLabelList.appendChild(clipLabelItem);
-        clipLabelList.appendChild(deleteButton);
-        labelContainer.appendChild(clipLabelList);
-        clipContainer.appendChild(audio);
-        clipContainer.appendChild(labelContainer);""
-        clipList.appendChild(clipContainer);
+//        var clipLabel = document.createTextNode(clipName);
+
+        clipListSubItem.appendChild(audio);
+        clipListSubItem.appendChild(deleteButton);
+        clipList.appendChild(clipListItem);
+        clipList.appendChild(clipListSubItem);
+
 
         var audioURL = window.URL.createObjectURL(e.data);
         audio.src = audioURL;
 
         deleteButton.onclick = function(e) {
-          evtTgt = e.target;
-          evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+          var currentClip = e.target.parentNode;
+          var currentLabel = currentClip.previousSibling;
+          currentClip.parentNode.removeChild(currentClip);
+          currentLabel.parentNode.removeChild(currentLabel);
         }
       }
     },
@@ -98,6 +103,15 @@ else {
   console.log('getUserMedia not supported on your browser!');
 }
 
+function toggleAudio(event) {
+  if (event.target.nextSibling.classList.contains("hidden")) {
+    event.target.nextSibling.classList.remove("hidden");
+  }
+  else {
+    event.target.nextSibling.classList.add("hidden");
+  }
+
+}
 function visualize(stream) {
   var source = audioCtx.createMediaStreamSource(stream);
 

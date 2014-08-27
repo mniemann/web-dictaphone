@@ -56,7 +56,7 @@ if (navigator.getUserMedia) {
         var d = new Date();
         var clipDate = (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
 
-        var clipName = document.createTextNode(prompt('Enter a name for your sound clip') + " " + clipDate);
+        var clipName = document.createTextNode(prompt('Enter a name for your audio clip') + " " + clipDate);
         var clipList = document.getElementById("clip");
 
         var clipListItem = document.createElement("dt");

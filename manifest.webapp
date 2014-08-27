@@ -4,18 +4,23 @@
   "description": "A voice memo recorder based on the sample MDN app from Chris Mills",
   "launch_path": "/index.html",
   "icons": {
-    "60": "app-icons/icon-60.png",
-    "128": "app-icons/icon-128.png"
+    "16": "icons/icon-16.png",
+    "60": "icons/icon-60.png",
+    "128": "icons/icon-128.png"
   },
   "developer": {
-    "name": "Chris Mills",
-    "url": "https://developer.mozila.org"
+    "name": "Michael Niemann",
+    "url": "http//michael-niemann.com/apps"
   },
   "default_locale": "en",
   "permissions": {
     "audio-capture": {
       "description": "Required to capture audio via getUserMedia"
+    },
+    "storage": {
+      "description": "Required to store and retrieve todo items."
     }
   },
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "fullscreen": "true"
 }

@@ -21,8 +21,21 @@ var audioCtx = new AudioContext();
 var canvasCtx = canvas.getContext("2d");
 var recFlag = 0;
 
+/*
+function handleVisibilityChange() {
+  if (document.hidden) {
+     console.log("hidden");
+     if(stream){
+         stream.stop();
+//         mediaRecorder = null;
+     }
+  } else  {
+     console.log("visible");
+     setup(); //Call getUserMedia
+  }
+}*/
 //main block for doing the audio recording
-
+//get audio and save it to database
 if (navigator.getUserMedia) {
   console.log('getUserMedia supported.');
   navigator.getUserMedia (
@@ -34,25 +47,22 @@ if (navigator.getUserMedia) {
     // Success callback
     function(stream) {
       var mediaRecorder = new MediaRecorder(stream);
-
       visualize(stream);
-
+      //record the stream
       record.onclick = function() {
         if (recFlag == 0) {
           recFlag = 1;
           record.style.backgroundImage = "url('icons/buttonon.png')";
           mediaRecorder.start();
           console.log(mediaRecorder.state);
-          console.log("recorder started");
         }
-        else if (recFlag = 1) {
+        else if (recFlag == 1) {
           recFlag = 0;
           record.style.backgroundImage = "url('icons/buttonoff.png')";
           mediaRecorder.stop();
           console.log(mediaRecorder.state);
-          console.log("recorder stopped");
         }
-      }
+      };
       //save new audio memo
       mediaRecorder.ondataavailable = function(e) {
         console.log("data available");
@@ -64,7 +74,7 @@ if (navigator.getUserMedia) {
         //create new database record;
         var newAudioMemo = new AudioMemo();
         newAudioMemo.title = clipName;
-        newAudioMemo.date = d
+        newAudioMemo.date = d;
         newAudioMemo.audio = e.data;
         //save to database
         var objectStore = db.transaction(["vmemos"], "readwrite").objectStore("vmemos");
@@ -81,7 +91,7 @@ if (navigator.getUserMedia) {
 
     // Error callback
     function(err) {
-      console.log('The following gUM error occured: ' + err);
+      console.log('The following error occured: ' + err);
     }
   );
 }
@@ -89,6 +99,7 @@ else {
   console.log('getUserMedia not supported on your browser!');
 }
 
+//delete audio clip
 function deleteClip(e) {
     var currentClip = e.target.parentNode;
     var currentLabel = currentClip.previousSibling;
@@ -105,6 +116,7 @@ function deleteClip(e) {
     };
 
 }
+//show or hide audio clips
 function toggleAudio(event) {
   if (event.target.nextSibling.classList.contains("hidden")) {
     event.target.nextSibling.classList.remove("hidden");
@@ -114,6 +126,7 @@ function toggleAudio(event) {
   }
 
 }
+//create visualization
 function visualize(stream) {
   var source = audioCtx.createMediaStreamSource(stream);
 
@@ -168,6 +181,7 @@ function visualize(stream) {
   }
 }
 
+//load existing clips from the DB
 function refreshMemoList() {
   if (!db) {
     console.log("Database is not ready yet");
@@ -190,7 +204,6 @@ function refreshMemoList() {
       var clipLabel = document.createTextNode(clipName + " - " + clipDate);
       //get audio blob
       var clipAudio = cursor.value.audio;
-      console.log(clipAudio);
       var URL = window.URL;
       var audioURL = URL.createObjectURL(clipAudio);
       //create lists for display
@@ -225,5 +238,6 @@ function refreshMemoList() {
 
 //start app
 window.onload = function () {
+//  document.addEventListener("visibilitychange", handleVisibilityChange, false);
   refreshMemoList();
-}
+};
